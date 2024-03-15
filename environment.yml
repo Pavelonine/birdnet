@@ -1,0 +1,10 @@
+name: birdnet-minimal-dev
+channels:
+  - defaults
+dependencies:
+  - pip
+  - python=3.11
+  - setuptools
+  - build
+  - pip:
+    - -r requirements-dev.txt
