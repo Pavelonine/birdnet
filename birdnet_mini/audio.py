@@ -24,8 +24,11 @@ SIG_MINLEN: float = 1.0
 SIG_FMIN = 0
 SIG_FMAX = 15000
 
+BANDPASS_FMIN: int = 0
+BANDPASS_FMAX: int = 15000
 
-def get_raw_audio_chunks_from_file(fpath: str):
+
+def get_raw_audio_chunks_from_file(fpath: str, offset=0, duration=None):
     """Reads an audio file.
 
     Reads the file and splits the signal into chunks.
@@ -37,7 +40,7 @@ def get_raw_audio_chunks_from_file(fpath: str):
         The signal split into a list of chunks.
     """
     # Open file
-    sig, rate = open_audio_file(fpath, INFERENCE_SAMPLE_RATE)
+    sig, rate = open_audio_file(fpath, INFERENCE_SAMPLE_RATE, offset, duration)
 
     # Split into raw audio chunks
     chunks = split_signal(sig, rate, SIG_LENGTH, SIG_OVERLAP, SIG_MINLEN)
@@ -59,10 +62,7 @@ def open_audio_file(path: str, sample_rate=48000, offset=0.0, duration=None):
     Returns:
         Returns the audio time series and the sampling rate.
     """
-    # Open file with librosa (uses ffmpeg or libav)
-
     sig, rate = librosa.load(path, sr=sample_rate, offset=offset, duration=duration, mono=True, res_type="kaiser_fast")
-
     return sig, rate
 
 
@@ -102,7 +102,7 @@ def noise(sig, shape, amount=None):
     return result_noise.astype("float32")
 
 
-def split_signal(sig, rate, seconds, overlap, minlen):
+def split_signal(sig, rate, seconds, overlap, min_len):
     """Split signal with overlap.
 
     Args:
@@ -110,7 +110,7 @@ def split_signal(sig, rate, seconds, overlap, minlen):
         rate: The sampling rate.
         seconds: The duration of a segment.
         overlap: The overlapping seconds of segments.
-        minlen: Minimum length of a split.
+        min_len: Minimum length of a split.
     
     Returns:
         A list of splits.
@@ -121,7 +121,7 @@ def split_signal(sig, rate, seconds, overlap, minlen):
         split = sig[i: i + int(seconds * rate)]
 
         # End of signal?
-        if len(split) < int(minlen * rate) and len(sig_splits) > 0:
+        if len(split) < int(min_len * rate) and len(sig_splits) > 0:
             break
 
         # Signal chunk too short?
