@@ -8,17 +8,7 @@ import numpy as np
 RANDOM_SEED = 42
 RANDOM = np.random.RandomState(RANDOM_SEED)
 
-
 INFERENCE_SAMPLE_RATE = 48000
-# We're using 3-second chunks
-SIG_LENGTH: float = 3.0
-
-# Define overlap between consecutive chunks <3.0; 0 = no overlap
-SIG_OVERLAP: float = 0
-
-# Define minimum length of audio chunk for prediction,
-# chunks shorter than 3 seconds will be padded with zeros
-SIG_MINLEN: float = 1.0
 
 # Frequency range. This is model specific and should not be changed.
 SIG_FMIN = 0
@@ -26,26 +16,6 @@ SIG_FMAX = 15000
 
 BANDPASS_FMIN: int = 0
 BANDPASS_FMAX: int = 15000
-
-
-def get_raw_audio_chunks_from_file(fpath: str, offset=0, duration=None):
-    """Reads an audio file.
-
-    Reads the file and splits the signal into chunks.
-
-    Args:
-        fpath: Path to the audio file.
-
-    Returns:
-        The signal split into a list of chunks.
-    """
-    # Open file
-    sig, rate = open_audio_file(fpath, INFERENCE_SAMPLE_RATE, offset, duration)
-
-    # Split into raw audio chunks
-    chunks = split_signal(sig, rate, SIG_LENGTH, SIG_OVERLAP, SIG_MINLEN)
-
-    return chunks
 
 
 def open_audio_file(path: str, sample_rate=48000, offset=0.0, duration=None):
