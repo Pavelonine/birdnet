@@ -7,15 +7,16 @@ from scipy import signal
 
 import matplotlib.pyplot as plt
 
-from birdnet_mini.audio import get_raw_audio_chunks_from_file, save_signal
+from birdnet_mini.audio import get_raw_audio_chunks_from_file, save_signal, open_audio_file, split_signal
 
 SCRIPT_DIR = Path(__file__).resolve().parent
-TEST_FILE_PATH = SCRIPT_DIR / ".." / "testdata" / "test.wav"
+TEST_FILE_PATH = SCRIPT_DIR / ".." / "testdata" / "test_1min.wav"
 
 
 def main():
     # load the sample chunks from file
-    chunks = get_raw_audio_chunks_from_file(str(TEST_FILE_PATH))
+    sig, rate = open_audio_file(str(TEST_FILE_PATH))
+    chunks = split_signal(sig, rate, 3.0, 0.0, 1.0)
 
     # plot the samples for the first chunk
     plt.plot(chunks[0])
