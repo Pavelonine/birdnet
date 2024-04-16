@@ -1,13 +1,7 @@
 import sys
-import argparse
 from pathlib import Path
 
-import numpy as np
-from scipy import signal
-
-import matplotlib.pyplot as plt
-
-from birdnet_mini.audio import get_raw_audio_chunks_from_file, save_signal, open_audio_file, split_signal
+from birdnet_mini.audio import open_audio_file, split_signal
 from birdnet_mini.model import Model
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -20,23 +14,6 @@ def main():
     # load the sample chunks from file
     sig, rate = open_audio_file(str(TEST_FILE_PATH))
     chunks = split_signal(sig, rate, 3.0, 0.0, 1.0)
-
-    # # plot the samples for the first chunk
-    # plt.plot(chunks[0])
-    # plt.xlabel("Sample")
-    # plt.ylabel("Amplitude")
-    #
-    # plt.figure()
-    # # plot the spectrogram for the first chunk
-    # frequencies, times, spectrogram = signal.spectrogram(chunks[0], 48000)
-    # plt.pcolormesh(times, frequencies, 10 * np.log10(spectrogram), shading='auto')
-    # plt.ylabel('Frequency (Hz)')
-    # plt.xlabel('Time (s)')
-    # plt.colorbar(label='Power Spectral Density (dB)')
-    # plt.title('Spectrogram')
-    #
-    # plt.show()
-
 
     # load the labels
     with open(LABELS_FILE_PATH, "r") as f:
@@ -54,5 +31,4 @@ def main():
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="BirdNet Mini")
     sys.exit(main())
