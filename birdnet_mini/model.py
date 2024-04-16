@@ -1,7 +1,5 @@
 import operator
-
 import numpy as np
-from pathlib import Path
 
 try:
     import tflite_runtime.interpreter as tflite
@@ -12,7 +10,7 @@ except ModuleNotFoundError:
 class Model:
     def __init__(self, model_path, labels, num_threads=1):
 
-        self._interpreter = tflite.Interpreter(model_path=model_path, num_threads=num_threads)
+        self._interpreter = tflite.Interpreter(model_path=str(model_path), num_threads=num_threads)
         self._interpreter.allocate_tensors()
         input_details = self._interpreter.get_input_details()
         output_details = self._interpreter.get_output_details()

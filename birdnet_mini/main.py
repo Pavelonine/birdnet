@@ -1,34 +1,56 @@
 import sys
+import argparse
+import time
 from pathlib import Path
+from queue import Queue
 
-from birdnet_mini.audio import open_audio_file, split_signal
 from birdnet_mini.model import Model
+from birdnet_mini.file_reader import FileReader
+from birdnet_mini.classifier import BirdClassifier
+from birdnet_mini.transmission import SerialSender
 
 SCRIPT_DIR = Path(__file__).resolve().parent
-TEST_FILE_PATH = SCRIPT_DIR / ".." / "testdata" / "test_1min.wav"
+AUDIO_FOLDER_PATH = SCRIPT_DIR / "k:" / "science-camp" / "Data"
+METADATA_FILE_PATH = SCRIPT_DIR / "k:" / "science-camp" / "SMM11597_Summary.txt"
 MODEL_FILE_PATH = SCRIPT_DIR / "models" / "BirdNET_GLOBAL_6K_V2.4_Model_FP32.tflite"
 LABELS_FILE_PATH = SCRIPT_DIR / "models" / "BirdNET_GLOBAL_6K_V2.4_Labels.txt"
 
 
 def main():
-    # load the sample chunks from file
-    sig, rate = open_audio_file(str(TEST_FILE_PATH))
-    chunks = split_signal(sig, rate, 3.0, 0.0, 1.0)
 
-    # load the labels
+    sample_queue = Queue()
+    result_queue = Queue()
+
     with open(LABELS_FILE_PATH, "r") as f:
         labels = f.read().splitlines()
 
-    # load the model
-    model = Model(str(MODEL_FILE_PATH), labels)
+    model = Model(MODEL_FILE_PATH, labels)
 
-    # predict the chunks
-    prediction = model.predict(chunks[0])
+    # Create the file_reader, classifier, and serial_sender objects
+    file_reader = FileReader(AUDIO_FOLDER_PATH, METADATA_FILE_PATH, 48000, sample_queue)
+    classifier = BirdClassifier(model, sample_queue, result_queue)
+    serial_sender = SerialSender(result_queue, "COM4")
 
-    # print the predictions
-    for label_idx, label, score in prediction[:5]:
-        print(f"{label_idx:04d} {label}: {score}")
+    # Start the threads
+    serial_sender.start()
+    classifier.start()
+    file_reader.start()
+
+    # enter main loop
+    try:
+        while True:
+            time.sleep(0.2)
+    except KeyboardInterrupt:
+        print("[main ] Externally interrupted. Stopping threads.")
+        file_reader.interrupt()
+        classifier.interrupt()
+        serial_sender.interrupt()
+
+    file_reader.join()
+    classifier.join()
+    serial_sender.join()
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="BirdNet Mini")
     sys.exit(main())
