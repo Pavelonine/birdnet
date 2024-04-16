@@ -1,6 +1,6 @@
 import glob
 import time
-from datetime import datetime
+import datetime
 from pathlib import Path
 from threading import Thread
 
@@ -36,8 +36,11 @@ class FileReader(Thread):
             sig, rate = open_audio_file(file, self._sample_rate)
             chunks = split_signal(sig, rate, self._chunk_size, self._overlap, self._min_len)
             for chunk_idx, chunk in enumerate(chunks):
-                time.sleep(2)  # wait 3 seconds between chunks since they represent 3 seconds of realtime audio
-                self._sample_queue.put((chunk, file_ts, file_lat, file_lon))
+                if self._interrupted:
+                    break
+                chunk_ts = file_ts + datetime.timedelta(seconds=chunk_idx * self._chunk_size)
+                time.sleep(2)  # wait 2 seconds between chunks since they represent 3 seconds of realtime audio
+                self._sample_queue.put((chunk, chunk_ts, file_lat, file_lon))
         if self._interrupted:
             print("[filereader] Interrupted")
         else:
