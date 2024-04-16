@@ -1,0 +1,27 @@
+Selection	View	Channel	Begin Path	File Duration (s)	Begin Time (s)	End Time (s)	Low Freq (Hz)	High Freq (Hz)	Species Code	Common Name	Confidence
+1	Spectrogram 1	1	e:\workspace\git\scienceCamp\birdnet-mini\testdata\test_1min.wav	60	0	3.0	0	15000	eurbla	Eurasian Blackbird	0.8666
+2	Spectrogram 1	1	e:\workspace\git\scienceCamp\birdnet-mini\testdata\test_1min.wav	60	3.0	6.0	0	15000	eurbla	Eurasian Blackbird	0.6233
+3	Spectrogram 1	1	e:\workspace\git\scienceCamp\birdnet-mini\testdata\test_1min.wav	60	6.0	9.0	0	15000	eurbla	Eurasian Blackbird	0.5822
+4	Spectrogram 1	1	e:\workspace\git\scienceCamp\birdnet-mini\testdata\test_1min.wav	60	6.0	9.0	0	15000	orhthr1	Orange-headed Thrush	0.1356
+5	Spectrogram 1	1	e:\workspace\git\scienceCamp\birdnet-mini\testdata\test_1min.wav	60	6.0	9.0	0	15000	chibla1	Chinese Blackbird	0.1292
+6	Spectrogram 1	1	e:\workspace\git\scienceCamp\birdnet-mini\testdata\test_1min.wav	60	9.0	12.0	0	15000	eurbla	Eurasian Blackbird	0.6679
+7	Spectrogram 1	1	e:\workspace\git\scienceCamp\birdnet-mini\testdata\test_1min.wav	60	12.0	15.0	0	15000	eurbla	Eurasian Blackbird	0.5477
+8	Spectrogram 1	1	e:\workspace\git\scienceCamp\birdnet-mini\testdata\test_1min.wav	60	12.0	15.0	0	15000	chibla1	Chinese Blackbird	0.1528
+9	Spectrogram 1	1	e:\workspace\git\scienceCamp\birdnet-mini\testdata\test_1min.wav	60	15.0	18.0	0	15000	eurbla	Eurasian Blackbird	0.9863
+10	Spectrogram 1	1	e:\workspace\git\scienceCamp\birdnet-mini\testdata\test_1min.wav	60	15.0	18.0	0	15000	chibla1	Chinese Blackbird	0.1761
+11	Spectrogram 1	1	e:\workspace\git\scienceCamp\birdnet-mini\testdata\test_1min.wav	60	18.0	21.0	0	15000	eurbla	Eurasian Blackbird	0.9821
+12	Spectrogram 1	1	e:\workspace\git\scienceCamp\birdnet-mini\testdata\test_1min.wav	60	21.0	24.0	0	15000	eurbla	Eurasian Blackbird	0.9770
+13	Spectrogram 1	1	e:\workspace\git\scienceCamp\birdnet-mini\testdata\test_1min.wav	60	24.0	27.0	0	15000	eurbla	Eurasian Blackbird	0.9814
+14	Spectrogram 1	1	e:\workspace\git\scienceCamp\birdnet-mini\testdata\test_1min.wav	60	33.0	36.0	0	15000	eurbla	Eurasian Blackbird	0.9829
+15	Spectrogram 1	1	e:\workspace\git\scienceCamp\birdnet-mini\testdata\test_1min.wav	60	36.0	39.0	0	15000	eurbla	Eurasian Blackbird	0.7791
+16	Spectrogram 1	1	e:\workspace\git\scienceCamp\birdnet-mini\testdata\test_1min.wav	60	39.0	42.0	0	15000	eurbla	Eurasian Blackbird	0.5340
+17	Spectrogram 1	1	e:\workspace\git\scienceCamp\birdnet-mini\testdata\test_1min.wav	60	39.0	42.0	0	15000	chibla1	Chinese Blackbird	0.3034
+18	Spectrogram 1	1	e:\workspace\git\scienceCamp\birdnet-mini\testdata\test_1min.wav	60	42.0	45.0	0	15000	eurbla	Eurasian Blackbird	0.5643
+19	Spectrogram 1	1	e:\workspace\git\scienceCamp\birdnet-mini\testdata\test_1min.wav	60	45.0	48.0	0	15000	eurbla	Eurasian Blackbird	0.3022
+20	Spectrogram 1	1	e:\workspace\git\scienceCamp\birdnet-mini\testdata\test_1min.wav	60	45.0	48.0	0	15000	woothr	Wood Thrush	0.1289
+21	Spectrogram 1	1	e:\workspace\git\scienceCamp\birdnet-mini\testdata\test_1min.wav	60	48.0	51.0	0	15000	eurbla	Eurasian Blackbird	0.9240
+22	Spectrogram 1	1	e:\workspace\git\scienceCamp\birdnet-mini\testdata\test_1min.wav	60	51.0	54.0	0	15000	eurbla	Eurasian Blackbird	0.8993
+23	Spectrogram 1	1	e:\workspace\git\scienceCamp\birdnet-mini\testdata\test_1min.wav	60	51.0	54.0	0	15000	chibla1	Chinese Blackbird	0.2249
+24	Spectrogram 1	1	e:\workspace\git\scienceCamp\birdnet-mini\testdata\test_1min.wav	60	54.0	57.0	0	15000	eurbla	Eurasian Blackbird	0.9851
+25	Spectrogram 1	1	e:\workspace\git\scienceCamp\birdnet-mini\testdata\test_1min.wav	60	54.0	57.0	0	15000	orhthr1	Orange-headed Thrush	0.1321
+26	Spectrogram 1	1	e:\workspace\git\scienceCamp\birdnet-mini\testdata\test_1min.wav	60	57.0	60.0	0	15000	eurbla	Eurasian Blackbird	0.9422
