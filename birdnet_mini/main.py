@@ -46,9 +46,9 @@ def main():
     model = Model(str(MODEL_FILE_PATH), labels)
 
     # predict the chunks
-    predictions = []
     prediction = model.predict(chunks[0])
-    predictions.append(prediction)
+
+    # print the predictions
     for label_idx, label, score in prediction[:5]:
         print(f"{label_idx:04d} {label}: {score}")
 
