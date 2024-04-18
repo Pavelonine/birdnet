@@ -32,6 +32,10 @@ class FileReader(Thread):
             file_ts, file_lat, file_lon = self._metadata.get_timestamp_lat_lon(str(Path(file).stem))
             if self._interrupted:
                 break
+            if file_ts is None or file_lat is None or file_lon is None:
+                print(f"[filereader] Skipping file {file} - no metadata found")
+                continue
+            print(f"[filereader] Loading file {file}")
             # since we know that our audio is 5min max - load it at once
             sig, rate = open_audio_file(file, self._sample_rate)
             chunks = split_signal(sig, rate, self._chunk_size, self._overlap, self._min_len)
