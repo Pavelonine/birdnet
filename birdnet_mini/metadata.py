@@ -25,12 +25,16 @@ class MetaData:
             lat = float(parts[2]) if parts[3] == "N" else -float(parts[2])
             lon = float(parts[4]) if parts[5] == "E" else -float(parts[4])
             timestamp = datetime.strptime(timestamp_string, "%Y-%b-%d %H:%M:%S")
+            # we replace the seconds to 0 since recording file names are not 100% accurate in terms of seconds
+            timestamp = timestamp.replace(second=0)
             metadata[timestamp] = (lat, lon)
         return metadata
 
     def get_timestamp_lat_lon(self, filename_stem: str):
         try:
             timestamp = self.parse_timestamp_from_filename(filename_stem)
+            # we replace the seconds to 0 since recording file names are not 100% accurate in terms of seconds
+            timestamp = timestamp.replace(second=0)
             return (timestamp, ) + self.metadata[timestamp]
         except KeyError:
             return None, None, None
