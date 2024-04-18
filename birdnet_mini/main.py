@@ -10,8 +10,8 @@ from birdnet_mini.classifier import BirdClassifier
 from birdnet_mini.transmission import SerialSender
 
 SCRIPT_DIR = Path(__file__).resolve().parent
-AUDIO_FOLDER_PATH = SCRIPT_DIR / "k:" / "science-camp" / "Data"
-METADATA_FILE_PATH = SCRIPT_DIR / "k:" / "science-camp" / "SMM11597_Summary.txt"
+AUDIO_FOLDER_PATH = Path("k:") / "science-camp" / "Data"
+METADATA_FILE_PATH = Path("k:") / "science-camp" / "SMM11597_Summary.txt"
 MODEL_FILE_PATH = SCRIPT_DIR / "models" / "BirdNET_GLOBAL_6K_V2.4_Model_FP32.tflite"
 LABELS_FILE_PATH = SCRIPT_DIR / "models" / "BirdNET_GLOBAL_6K_V2.4_Labels.txt"
 
