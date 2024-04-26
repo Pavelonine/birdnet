@@ -1,6 +1,5 @@
-tflite-runtime
-libatlas-base-dev
+tflite-runtime~=2.14.0
 numpy==1.26.4
 librosa==0.10.1
-pyaudio
-pyserial
+pyaudio~=0.2.14
+pyserial~=3.5
