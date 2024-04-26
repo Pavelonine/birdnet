@@ -1,4 +1,5 @@
 import glob
+import os.path
 import time
 import datetime
 from pathlib import Path
@@ -10,10 +11,15 @@ from birdnet_mini.metadata import MetaData
 
 class FileReader(Thread):
 
-    def __init__(self, path, metadata_file, sample_rate, sample_queue):
+    def __init__(self, path, metadata_file, sample_rate, sample_queue,  latitude, longitude):
         super(FileReader, self).__init__()
         self._files = glob.glob(str(Path(path) / "*.wav"))
-        self._metadata = MetaData(metadata_file)
+        if metadata_file is None or not os.path.exists(metadata_file):
+            self._metadata = None
+            self._latitude = latitude
+            self._longitude = longitude
+        else:
+            self._metadata = MetaData(metadata_file)
         self._sample_rate = sample_rate
         self._sample_queue = sample_queue
 
@@ -29,7 +35,13 @@ class FileReader(Thread):
 
     def run(self):
         for file in self._files:
-            file_ts, file_lat, file_lon = self._metadata.get_timestamp_lat_lon(str(Path(file).stem))
+            if self._metadata is None:
+                file_ts = datetime.datetime.now()
+                file_lat = self._latitude
+                file_lon = self._longitude
+            else:
+                file_ts, file_lat, file_lon = self._metadata.get_timestamp_lat_lon(str(Path(file).stem))
+
             if self._interrupted:
                 break
             if file_ts is None or file_lat is None or file_lon is None:
