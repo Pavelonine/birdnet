@@ -29,7 +29,7 @@ def main(args):
     else:
         input = FileReader(args.audio_folder, args.metadata_file, 48000, sample_queue)
     classifier = BirdClassifier(model, sample_queue, result_queue)
-    serial_sender = SerialSender(result_queue, "COM4")
+    serial_sender = SerialSender(result_queue, args.serial_port)
 
     # Start the threads
     serial_sender.start()
@@ -68,6 +68,8 @@ if __name__ == "__main__":
                         help="Path to the model file.")
     parser.add_argument("--labels-file", type=str, default=LABELS_FILE_PATH,
                         help="Path to the labels file.")
+    parser.add_argument("--serial-port", type=str, default=None,
+                        help="Serial port to be used for IoT transmission")
     parser.add_argument("--live", action="store_true",
                         help="Use live microphone input instead of file input.")
     parser.add_argument("--latitude", type=float, default=50.68337,
@@ -78,6 +80,8 @@ if __name__ == "__main__":
                         help="List available audio devices.")
     parser.add_argument("--device-index", type=int, default=None,
                         help="Index of the audio device to use. Only used for live input.")
+    
+
 
     args = parser.parse_args()
 

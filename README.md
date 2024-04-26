@@ -24,9 +24,15 @@ The demo system consists of a fresh installation of Raspberry Pi OS.
 
 We use TensorflowLite as Runtime on the Raspberry Pi. Follow the documentation at https://pimylifeup.com/raspberry-pi-tensorflow-lite/
 
-## Copy Simulation data
 
-To be done...
+
+```
+curl -sS https://packages.cloud.google.com/apt/doc/apt-key.gpg | gpg --dearmor | sudo tee /usr/share/keyrings/google.gpg
+echo "deb [signed-by=/usr/share/keyrings/google.gpg] https://packages.cloud.google.com/apt coral-edgetpu-stable main" | sudo tee /etc/apt/sources.list.d/coral-edgetpu.list
+sudo apt-get update
+```
+
+
 
 
 ## Deploy the software

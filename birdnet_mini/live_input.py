@@ -17,8 +17,9 @@ class LiveMicrophoneInput(Thread):
 
         self._pa = pyaudio.PyAudio()
 
-        candidate_name_part = "C525"
+        candidate_name_parts = ["tlv320"]
         candidate_names = {}
+        candidate_device_index = device_index
         info = self._pa.get_host_api_info_by_index(0)
         num_devices = info.get('deviceCount')
 
@@ -27,8 +28,10 @@ class LiveMicrophoneInput(Thread):
             if (dev_info.get('maxInputChannels')) > 0:
                 print("Input Device id ", i, " - ", dev_info.get('name'))
                 candidate_names[i] = dev_info.get('name')
-                if candidate_name_part in dev_info.get('name'):
-                    candidate_device_index = i
+                for candidat_name_part in candidate_name_parts:
+                    if candidat_name_part in dev_info.get('name'):
+                        candidate_device_index = i
+                        break
 
         if device_index is None or device_index not in candidate_names.keys():
             print(f"Invalid device index - Using device with index {candidate_device_index} "
