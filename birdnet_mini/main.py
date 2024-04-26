@@ -27,7 +27,8 @@ def main(args):
     if args.live:
         input = LiveMicrophoneInput(0, 48000, sample_queue, args.latitude, args.longitude)
     else:
-        input = FileReader(args.audio_folder, args.metadata_file, 48000, sample_queue)
+        input = FileReader(args.audio_folder, args.metadata_file, 48000, sample_queue,
+                           args.latitude, args.longitude)
     classifier = BirdClassifier(model, sample_queue, result_queue)
     serial_sender = SerialSender(result_queue, args.serial_port)
 
@@ -80,8 +81,6 @@ if __name__ == "__main__":
                         help="List available audio devices.")
     parser.add_argument("--device-index", type=int, default=None,
                         help="Index of the audio device to use. Only used for live input.")
-    
-
 
     args = parser.parse_args()
 
