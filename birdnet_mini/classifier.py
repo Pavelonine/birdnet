@@ -32,7 +32,7 @@ class BirdClassifier (Thread):
             print(f"[classifier] Top prediction {class_label}({class_id}), with confidence: {confidence:.02f}")
             data = {
                 "class_id": class_id,
-                "confidence": confidence,
+                "confidence": float(confidence),
                 "lat": lat,
                 "lon": long,
                 "timestamp": timestamp

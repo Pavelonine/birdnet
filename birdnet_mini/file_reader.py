@@ -11,7 +11,7 @@ from birdnet_mini.metadata import MetaData
 
 class FileReader(Thread):
 
-    def __init__(self, path, metadata_file, sample_rate, sample_queue,  latitude, longitude):
+    def __init__(self, path, metadata_file, sample_rate, sample_queue,  latitude, longitude, simulation_time=2.0):
         super(FileReader, self).__init__()
         self._files = glob.glob(str(Path(path) / "*.wav"))
         if metadata_file is None or not os.path.exists(metadata_file):
@@ -27,6 +27,7 @@ class FileReader(Thread):
         self._chunk_size = 3.0
         self._overlap = 0
         self._min_len = 1.0
+        self._simulation_time = simulation_time
 
         self._interrupted = False
 
@@ -55,7 +56,7 @@ class FileReader(Thread):
                 if self._interrupted:
                     break
                 chunk_ts = file_ts + datetime.timedelta(seconds=chunk_idx * self._chunk_size)
-                time.sleep(2)  # wait 2 seconds between chunks since they represent 3 seconds of realtime audio
+                time.sleep(self._simulation_time)  # simulate processing time
                 self._sample_queue.put((chunk, chunk_ts, file_lat, file_lon))
         if self._interrupted:
             print("[filereader] Interrupted")

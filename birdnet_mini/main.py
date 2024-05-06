@@ -8,6 +8,7 @@ from birdnet_mini.live_input import LiveMicrophoneInput
 from birdnet_mini.model import Model
 from birdnet_mini.file_reader import FileReader
 from birdnet_mini.classifier import BirdClassifier
+from birdnet_mini.result_writer import ResultWriter
 from birdnet_mini.transmission import SerialSender
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -23,17 +24,25 @@ def main(args):
 
     model = Model(args.model_file, labels)
 
+    if args.write_results_to_file:
+        sim_process_time = 0.0
+
     # Create the file_reader, classifier, and serial_sender objects1
     if args.live:
         input = LiveMicrophoneInput(0, 48000, sample_queue, args.latitude, args.longitude)
     else:
         input = FileReader(args.audio_folder, args.metadata_file, 48000, sample_queue,
-                           args.latitude, args.longitude)
+                           args.latitude, args.longitude, sim_process_time)
     classifier = BirdClassifier(model, sample_queue, result_queue)
-    serial_sender = SerialSender(result_queue, args.serial_port)
 
     # Start the threads
-    serial_sender.start()
+    if args.write_results_to_file:
+        result_writer = ResultWriter(result_queue, args.result_target_folder)
+        result_writer.start()
+    else:
+        serial_sender = SerialSender(result_queue, args.serial_port)
+        serial_sender.start()
+
     classifier.start()
     input.start()
 
@@ -45,11 +54,17 @@ def main(args):
         print("[main ] Externally interrupted. Stopping threads.")
         input.interrupt()
         classifier.interrupt()
-        serial_sender.interrupt()
+        if args.write_results_to_file:
+            result_writer.interrupt()
+        else:
+            serial_sender.interrupt()
 
     input.join()
     classifier.join()
-    serial_sender.join()
+    if args.write_results_to_file:
+        result_writer.join()
+    else:
+        serial_sender.join()
 
 
 if __name__ == "__main__":
@@ -58,6 +73,7 @@ if __name__ == "__main__":
     METADATA_FILE_PATH = Path("k:") / "science-camp" / "SMM11597_Summary.txt"
     MODEL_FILE_PATH = SCRIPT_DIR / "models" / "BirdNET_GLOBAL_6K_V2.4_Model_FP32.tflite"
     LABELS_FILE_PATH = SCRIPT_DIR / "models" / "BirdNET_GLOBAL_6K_V2.4_Labels.txt"
+    RESULT_FILE_FOLDER = Path("k:") / "science-camp" / "results"
 
     parser = argparse.ArgumentParser(description="BirdNet Mini")
 
@@ -73,6 +89,10 @@ if __name__ == "__main__":
                         help="Serial port to be used for IoT transmission")
     parser.add_argument("--live", action="store_true",
                         help="Use live microphone input instead of file input.")
+    parser.add_argument("--write-results-to-file", action="store_true",
+                        help="Instead of sending data via serial, write results to files.")
+    parser.add_argument("--result-target-folder", type=str, default=RESULT_FILE_FOLDER,
+                        help="Folder to write results to. Only used if --write-results-to-file is set.")
     parser.add_argument("--latitude", type=float, default=50.68337,
                         help="Latitude of the recording location. Only used for live input.")
     parser.add_argument("--longitude", type=float, default=10.93209,
