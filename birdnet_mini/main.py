@@ -26,6 +26,8 @@ def main(args):
 
     if args.write_results_to_file:
         sim_process_time = 0.0
+    else:
+        sim_process_time = 2.0
 
     # Create the file_reader, classifier, and serial_sender objects1
     if args.live:
