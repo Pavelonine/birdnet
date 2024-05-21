@@ -1,5 +1,10 @@
 import numpy as np
-import pyaudio
+
+try:
+    import pyaudio
+    pyaudio_available = True
+except ImportError:
+    pyaudio_available = False
 
 import datetime
 from threading import Thread
@@ -8,6 +13,8 @@ from threading import Thread
 class LiveMicrophoneInput(Thread):
 
     def __init__(self, device_index, sample_rate, sample_queue, lat=None, lon=None):
+        if not pyaudio_available:
+            raise ImportError("pyaudio not found. Please install it using 'pip install pyaudio'")
         super(LiveMicrophoneInput, self).__init__()
         self._sample_rate = sample_rate
         self._sample_queue = sample_queue
